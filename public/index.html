@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Laporan OJT - Sol by Meliá</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                        url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1920');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .brand-logo-top {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      height: 45px;
+      width: auto;
+      z-index: 1000;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    }
+
+    .form-card {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 576px) {
+      .brand-logo-top {
+        top: 12px;
+        left: 12px;
+        height: 35px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo Fixed di Pojok Kiri Atas Screen -->
+  <img src="/sol-by-melia-logo-vector.png" alt="Sol by Meliá Logo" class="brand-logo-top">
+
+  <div class="container my-4">
+    <div class="card form-card p-4 rounded-4 shadow-lg mx-auto" style="max-width: 580px;">
+      
+      <!-- Logo di Atas Judul Form -->
+      <div class="text-center mb-3">
+        <img src="/sol-by-melia-logo-vector.png" alt="Sol by Meliá Logo" style="height: 55px; width: auto;">
+      </div>
+
+      <h3 class="mb-1 text-center fw-bold text-dark">Form Laporan OJT Trainee</h3>
+      <p class="text-center text-secondary small mb-3">Sol by Meliá Benoa Bali</p>
+      <hr class="my-3">
+
+      <form id="formOJT" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Tanggal</label>
+          <input type="date" name="tanggal" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Data Mahasiswa</label>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="text" name="nama" placeholder="Nama Lengkap" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="nim" placeholder="NIM / NIK Trainee" class="form-control" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Departemen</label>
+          <select name="departemen" class="form-select" required>
+            <option value="">-- Pilih Departemen --</option>
+            <option>Front Office</option>
+            <option>Housekeeping</option>
+            <option>F&B Service</option>
+            <option>F&B Product</option>
+            <option>Engineering</option>
+            <option>HR</option>
+            <option>Garden</option>
+            <option>Security</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Aktivitas / Kegiatan Harian</label>
+          <textarea name="aktivitas" class="form-control" rows="3" placeholder="Tuliskan uraian tugas harian Anda..." required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Unggah Foto Dokumentasi</label>
+          <input type="file" name="dokumentasi" class="form-control" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">Kirim Laporan</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('formOJT').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      try {
+        const response = await fetch('/api/laporan', { method: 'POST', body: formData });
+        const result = await response.json();
+        alert(result.message);
+        e.target.reset();
+      } catch (err) {
+        alert('Gagal mengirim laporan.');
+      }
+    });
+  </script>
+</body>
+</html>
